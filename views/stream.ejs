@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta charset="utf-8">
+        <title><%= title %> | Synchronized YouTube Player</title>
+        <link href="css/jquery.cssemoticons.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,100,900' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        
+   </head>
+   
+   <body class="client">
+
+   <!-- Header -->
+        <header class="header row">
+            <div class="span4 offset2" id="logo"><h1>Synchronized YouTube Player</h1></div>
+            <div id="clock"><div id="clockTime"></div></div>
+            <div class="row">
+                <div id="titlebar" class="span12">
+                    <p id="stream-description"><%= description %></p>
+                    <h2 id="stream-title"><%= title %></h2>
+                     <div id="admin-password" data-toggle="tooltip" data-placement="top" title="Broadcast-Anmeldung">Admin Zugriff</div>
+                      <div data-toggle="tooltip" class="adminHere" data-placement="top" title="LIVE"></div>
+                </div>
+            </div>
+        </header>
+      
+            <!-- Playlist -->
+            
+            <div class="row">
+            <div class="span3" id="playlist-column">
+                <div id="playlist-header">
+                    <div id="playlist-controls">
+                    <button id="next" class="btn btn-small btn-inverse"><i class="next-icon">NEXT</i></button>              
+                    
+                    <div class="switch switch-white">
+                      <input type="radio" class="switch-input" name="playmode" value="normal" id="nacheinander" checked>
+                      <label for="nacheinander" class="switch-label switch-label-off">Normal</label>
+                      <input type="radio" class="switch-input" name="playmode" value="random" id="zufaellig">
+                      <label for="zufaellig" class="switch-label switch-label-on">Zufällig</label>
+                      <span class="switch-selection"></span>
+                    </div>
+                    </div>
+                </div>
+                <div id="playlist-slider">
+                <ul class="media-list" id="playlist"></ul>
+                </div>
+
+                <div id="playlist-footer">
+                    <p id = "helper">Pictures by: Sarah Munker and Unbekannt. 
+                                <br>Running with: JS, NODE.JS, socket.io, express, ejs, underscore.js, jQuery...
+                    </p>
+                </div>
+                
+            </div>
+        
+            <!-- Main Area -->
+            <div class="span12  pull-left" id="container">
+                <div class="row">
+                
+                    <!-- YouTubeVideo -->
+                    <div class="span7 white-container video-container">
+                        <div class="">
+                            <div id="video">
+                                <div id="ytplayer"></div>
+                            </div>
+                            <div id="current-video-title">
+                                <h4></h4>
+                            </div>
+                        </div>
+                        
+                        
+
+                    </div>
+                        
+                    <!-- Chat -->
+                    <div class="span4 white-container chat-container">
+                        <div class="">
+                        <div id="chat"></div>
+                        <div class="input-append" id="chatcontrol"></div>
+                        </div>
+                </div>
+                </div>
+
+                <div class="row">
+                    <div id="sharebar" class="span12 white-container">
+                        <div class="span2">
+                            <div id="zuschauer"></div>
+                        </div>
+                        <div class="span5" id="stream-url"></div>
+                        <div class="span3" id="shareButtons">
+                            <img id="facebook" src="/img/facebook.png" title='Auf Facebook weitersagen'>
+                            <img id="twitter" src="/img/twitter.png" title='Auf Twitter weitersagen'>
+                            <img id="googleplus" src="/img/googleplus.png" title='Auf GooglePlus weitersagen'>
+                        </div>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://www.google.com/jsapi"></script>
+
+        <script src="lib/jquery-1.9.1.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+        <script src="lib/jquery.cookie.js"></script>
+        <script src="lib/jquery.slimscroll.min.js"></script>
+        <script src="lib/swfobject.js"></script>    
+        <script src="lib/underscore-min.js"></script>
+        <script src="lib/bootstrap.min.js"></script>
+        <script src="lib/jquery.scrollTo-1.4.3.1-min.js"></script>
+        <script src="lib/jquery.cssemoticons.min.js"></script>
+        <script src="lib/jquery.sly.min.js"></script>         
+        
+        <script src="src/app.js"></script>
+        <script src="src/MainController.js"></script>
+        <script src="src/MainView.js"></script>
+        <script src="src/MainModel.js"></script>
+        <script src="src/ChatController.js"></script>
+        <script src="src/ClockView.js"></script>
+        <script src="src/PlaylistView.js"></script>
+        <script src="src/VideoView.js"></script>
+        <script src="src/SearchView.js"></script>
+        
+        <script type="text/html" id="playlist-tpl">
+             <li id="{{ videoID }}" class="playlist-item admin">
+                <img src="http://img.youtube.com/vi/{{ videoID }}/default.jpg" />
+                <p>{{ videoTitle }}</p>
+             </li>
+        </script>
+        
+        <script>
+            onYouTubePlayerReady = function(playerid) {
+                 $(window).trigger("playerReady");
+                ytplayer = document.getElementById("ytplayer");
+            },
+        
+            $(function() {
+                SYPlayer.init("<%= id %>");        
+            });
+        </script>
+        
+   </body>
+</html>

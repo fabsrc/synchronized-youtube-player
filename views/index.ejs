@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta charset="utf-8">
+        <title>Synchronized YouTube Player</title>
+        <link href="css/jquery.cssemoticons.css" media="screen" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script src="lib/jquery-1.9.1.min.js"></script>
+
+   </head>
+   
+   <body class="index">
+
+   <!-- Header -->
+        <div class="start row">
+            <div class="row">
+                <div class="span4 offset2" id="logo"><h1>Synchronized YouTube Player</h1></div>
+            </div>
+            <div id="clock"><div id="clockTime"></div></div>
+            <div class="row">
+                <div class="creation">
+                    <div id="introduction">
+                        <h2 id="headline">Erlebe gemeinsames Videoschauen!</h2>
+                        <h4>Lade deine Freunde zu deinem Stream ein und teilt eure Gedanken zum aktuellen Video über den integrierten Chat mit...</h4>
+                    </div>
+                    <button href="#new-stream" class="btn btn-success btn-large" id="create-modal" data-toggle="modal">Stream erstellen</button>
+                    <p> Einfach Stream erstellen und los geht's ;)</p>
+                </div>
+            </div>
+        </div>    
+        <div class="row streams-headline">
+            <h2>Aktuelle Streams</h2>
+        </div>
+        <div class="row">
+            <ul id="all-streams" class="media-list"></ul>
+        </div>
+        <div id="footer" class="row">
+            <div href="#new-stream" data-toggle="modal" id="create-now" ><span>Jetzt <br> Stream <br> erstellen</span></div>
+            <div class="footer-description">
+                <p>Mit dem Synchronized YouTube Player wirst du zu deinem eigenen TV-Produzenten. Erstelle einen Stream, suche deine Lieblingsvideos auf YouTube und füge sie deiner Playlist hinzu. Schicke den Link deines Streams an deine Freunde und schon können alle deinen Videos zuschauen. Alle deine Freunde sehen dabei genau das Video und den Zeitabschnitt, den du auch gerade anschaust. <br> Synchronisiertes Videoschauen war noch nie so einfach!</p>
+            </div>
+        </div>
+
+        <!-- New Stream Modal -->
+        <div id="new-stream" class="modal hide fade">
+        <form id="stream-form" class="form-horizontal">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Neuen SYP-Stream erstellen</h3>
+          </div>
+          <div class="modal-body">
+            <h4>Stream Titel</h4>
+            <input class="span6" id="input-stream-title" type="text" required>
+            <h4>Stream Beschreibung</h4>
+            <input class="span6" id="input-stream-description" type="text" required>
+            <hr>
+
+            <h5>Passwort</h5>
+            <input type="password" id="input-password"><span class="help-inline"><i>Optional</i></span>
+
+            <h5> Privater Stream</h5> 
+             <label class="checkbox">
+                <input type="checkbox" id="input-private-stream"> Privat
+            </label>
+            <i>Stream wird nicht in Übersicht angezeigt</i>
+            <input id="stream-id" type="hidden" value="<%= id %>">
+            
+          </div>
+          <div class="modal-footer">
+            <input type="reset" value="Abbrechen" data-dismiss="modal" class="btn" required></input>
+            <input type="submit" value="Erstellen" id="create-stream" class="btn btn-primary" required></input>
+          </div>
+          </form>
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://www.google.com/jsapi"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+        
+        <script src="lib/jquery.cssemoticons.min.js"></script>        
+        <script src="lib/jquery.cookie.js"></script>
+        <script src="lib/swfobject.js"></script>    
+        <script src="lib/jquery.slimscroll.min.js"></script>
+        <script src="lib/bootstrap.min.js"></script>
+        <script src="lib/underscore-min.js"></script>
+        <script src="lib/jquery.scrollTo-1.4.3.1-min.js"></script>
+        <script src="lib/jquery.sly.min.js"></script>
+
+        
+        <script src="src/app.js"></script>
+        <script src="src/MainController.js"></script>
+        <script src="src/MainView.js"></script>
+        <script src="src/MainModel.js"></script>
+        <script src="src/ChatController.js"></script>
+        <script src="src/ClockView.js"></script>
+        <script src="src/PlaylistView.js"></script>
+        <script src="src/VideoView.js"></script>
+        <script src="src/SearchView.js"></script>
+        
+         <script type="text/html" id="streamlist-tpl">
+            <li id="{{ streamID }}" class="streamlist-item media white-container">
+                <img  class="media-object" src="http://img.youtube.com/vi/{{ videoID }}/default.jpg" />
+                <div class="media-body">
+                    <h4>{{ streamTitle }}</h4>
+                    <p>{{ description }}</p>
+                    <div id = "counterZuschauer">
+                        <div class ="eye"></div>
+                        <span class="counter">{{ zuschauer }}</span>
+                    </div>
+                </div>
+                <div class= "details">
+                        <a href="{{ streamID }}"> <button class="btn btn-success" type="button">Sei dabei! </button></a>
+                 </div>   
+            </li>
+        </script>
+        
+        <script>
+            $(function() {
+                SYPlayer.init();  
+            });
+        </script>
+        
+   </body>
+</html>
